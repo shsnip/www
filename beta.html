@@ -6,25 +6,82 @@
   <meta name="description" content="Shaurya/snipsh — 17-year-old curious kid building stuff on the internet.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://api.rss2json.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <title>hellow! i'm snip</title>
-  <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=dlN23b953qvQ&format=png&color=000000">
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <script>
+    // Initialize Theme before rendering to avoid page flash
+    const savedTheme = localStorage.getItem('theme');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const defaultTheme = savedTheme || (systemDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', defaultTheme);
+  </script>
   <style>
+    :root {
+      --bg-color: rgb(235, 231, 231);
+      --text-color: rgb(9, 9, 9);
+      --link-color: #514f4f;
+      --link-hover-color: rgb(9, 11, 13);
+      --copy-btn-color: #3a3838;
+      --copy-btn-bg: rgb(220, 215, 215);
+      --copy-btn-border: rgb(170, 165, 165);
+      --copy-btn-hover-bg: rgb(210, 205, 205);
+      --copy-btn-active-bg: rgb(200, 195, 195);
+      --post-date-color: #716f6f;
+      --btn-copied-color: #2a7a2a;
+      --btn-copied-border: #a0c8a0;
+      --btn-copied-bg: #dff0df;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: rgb(0, 0, 0); /* Pitch Black */
+      --text-color: rgb(255, 255, 255);
+      --link-color: #e8e0cc;
+      --link-hover-color: rgb(255, 255, 255);
+      --copy-btn-color: #b0b0b0;
+      --copy-btn-bg: rgb(30, 30, 30);
+      --copy-btn-border: rgb(75, 75, 75);
+      --copy-btn-hover-bg: rgb(45, 45, 45);
+      --copy-btn-active-bg: rgb(55, 55, 55);
+      --post-date-color: #666666;
+      --btn-copied-color: #80c080;
+      --btn-copied-border: #407040;
+      --btn-copied-bg: #153015;
+    }
+
+    [data-theme="special"] {
+      --bg-color: rgb(255, 240, 245); /* Lavender Blush */
+      --text-color: rgb(90, 20, 50);
+      --link-color: #b54a7c;
+      --link-hover-color: rgb(150, 40, 90);
+      --copy-btn-color: #b54a7c;
+      --copy-btn-bg: rgb(255, 220, 230);
+      --copy-btn-border: rgb(220, 160, 180);
+      --copy-btn-hover-bg: rgb(255, 205, 218);
+      --copy-btn-active-bg: rgb(255, 190, 206);
+      --post-date-color: #a26082;
+      --btn-copied-color: #2a7a2a;
+      --btn-copied-border: #a0c8a0;
+      --btn-copied-bg: #dff0df;
+    }
+
     body {
-      background: rgb(235, 231, 231);
-      color: rgb(9, 9, 9);
+      background: var(--bg-color);
+      color: var(--text-color);
       font-family: 'Roboto Mono','Cascadia Code', 'Menlo', 'Consolas', monospace;
       font-size: 15px;
       line-height: 1.7;
       padding: 5% 3%;
       max-width: 640px;
+      transition: background 0.2s, color 0.2s;
     }
 
     p { margin: 0; }
     .gap { margin-top: 20px; }
 
-    a { color: #514f4f; }
-    a:hover { color: rgb(9, 11, 13); }
+    a { color: var(--link-color); transition: color 0.2s; }
+    a:hover { color: var(--link-hover-color); }
 
     .email-row {
       display: flex;
@@ -39,36 +96,36 @@
       padding: 2px 6px 3px;
       font-family: inherit;
       font-size: 12px;
-      color: #3a3838;
-      background: rgb(220, 215, 215);
-      border: 1px solid rgb(170, 165, 165);
+      color: var(--copy-btn-color);
+      background: var(--copy-btn-bg);
+      border: 1px solid var(--copy-btn-border);
       border-bottom-width: 2.5px;
       border-radius: 4px;
       cursor: pointer;
       user-select: none;
-      transition: background 0.08s, transform 0.08s, border-bottom-width 0.08s, border-top-width 0.08s;
+      transition: background 0.08s, transform 0.08s, border-bottom-width 0.08s, border-top-width 0.08s, color 0.2s, border-color 0.2s;
       position: relative;
       top: 0;
       outline: none;
     }
 
     .copy-btn:hover {
-      background: rgb(210, 205, 205);
-      color: rgb(9, 9, 9);
+      background: var(--copy-btn-hover-bg);
+      color: var(--text-color);
     }
 
     .copy-btn:active,
     .copy-btn.pressed {
-      background: rgb(200, 195, 195);
+      background: var(--copy-btn-active-bg);
       border-bottom-width: 1px;
       border-top-width: 1.5px;
       transform: translateY(1.5px);
     }
 
     .copy-btn.copied {
-      color: #2a7a2a;
-      border-color: #a0c8a0;
-      background: #dff0df;
+      color: var(--btn-copied-color);
+      border-color: var(--btn-copied-border);
+      background: var(--btn-copied-bg);
     }
 
     .posts-list {
@@ -77,12 +134,33 @@
     }
 
     .post-date {
-      color: #716f6f;
+      color: var(--post-date-color);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 5%;
+      right: 3%;
+      font-size: 13px;
+      color: var(--link-color);
+      cursor: pointer;
+      user-select: none;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+
+    .theme-toggle:hover {
+      color: var(--link-hover-color);
     }
   </style>
 </head>
 <body>
-  <img src="https://media1.tenor.com/m/zdt3S5hNnHAAAAAd/pikachu-snivee.gif" height="18px" width="18px">
+  <button id="themeToggle" class="theme-toggle" title="Toggle theme (press T)"></button>
+  <img src="./pikachu-snivee.gif" height="18px" width="18px" fetchpriority="high">
   <p>namaste i'm <b>shaurya</b>.</p>
   <p>17-year-old curious kid with a lifelong love for computers.</p>
   <p class="">on the internet you can find me as <b>snip</b> or shsnip.</p>
@@ -151,24 +229,72 @@
 
     btn.addEventListener('click', triggerCopy);
 
+    // Theme Switcher Logic
+    const themeToggle = document.getElementById('themeToggle');
+
+    function updateToggleText(theme) {
+      themeToggle.textContent = `theme: ${theme}`;
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateToggleText(newTheme);
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // Keyboard Shortcuts (C to Copy, T to Toggle Theme)
     document.addEventListener('keydown', (e) => {
       const tag = document.activeElement.tagName;
-      if (e.key === 'c' && !e.ctrlKey && !e.metaKey && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
         btn.classList.add('pressed');
         triggerCopy();
         setTimeout(() => btn.classList.remove('pressed'), 150);
       }
+
+      if (e.key === 't' && !e.ctrlKey && !e.metaKey) {
+        toggleTheme();
+      }
     });
+
+    // Initialize toggle text
+    updateToggleText(document.documentElement.getAttribute('data-theme'));
+
+    // Location-based theme override (placeholder for future use)
+    const SPECIAL_CITY = ''; // Set city name here (e.g. 'Paris' or 'Mumbai') to trigger special theme
+    if (SPECIAL_CITY) {
+      fetch('https://freeipapi.com/api/json')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.cityName && data.cityName.toLowerCase() === SPECIAL_CITY.toLowerCase()) {
+            document.documentElement.setAttribute('data-theme', 'special');
+            localStorage.setItem('theme', 'special');
+            updateToggleText('special');
+          }
+        })
+        .catch(() => {});
+    }
 
     const postsList = document.getElementById('posts-list');
     const SUBSTACK_FEED = 'https://api.rss2json.com/v1/api.json?rss_url=https://realshaurya.substack.com/feed';
 
-    fetch(SUBSTACK_FEED)
+    // Optimize page speed by timing out slow API calls (fallback after 3 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+    fetch(SUBSTACK_FEED, { signal: controller.signal })
       .then(res => {
+        clearTimeout(timeoutId);
         if (!res.ok) throw new Error('Failed to fetch');
         return res.json();
       })
       .then(data => {
+        clearTimeout(timeoutId);
         if (data.status !== 'ok' || !data.items || data.items.length === 0) {
           throw new Error('No items found');
         }
@@ -184,6 +310,7 @@
         });
       })
       .catch(err => {
+        clearTimeout(timeoutId);
         console.error(err);
         postsList.innerHTML = `<p>read my notes directly on <a href="https://realshaurya.substack.com" target="_blank">substack</a>.</p>`;
       });
