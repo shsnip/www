@@ -44,7 +44,7 @@
       --copy-btn-border: rgb(75, 75, 75);
       --copy-btn-hover-bg: rgb(45, 45, 45);
       --copy-btn-active-bg: rgb(55, 55, 55);
-      --post-date-color: #666666;
+      --post-date-color: #ede9e8;
       --btn-copied-color: #80c080;
       --btn-copied-border: #407040;
       --btn-copied-bg: #153015;
@@ -135,6 +135,13 @@
 
     .post-date {
       color: var(--post-date-color);
+    }
+
+    [data-theme="dark"] .posts-list a {
+      color: #ede9e8;
+    }
+    [data-theme="dark"] .posts-list a:hover {
+      color: var(--link-hover-color);
     }
 
     .theme-toggle {
